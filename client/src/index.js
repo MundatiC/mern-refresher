@@ -1,6 +1,8 @@
 // Import core React libraries
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import axios from 'axios';
+
 
 // Import global CSS styles
 import './index.css';
@@ -13,6 +15,7 @@ import { AuthProvider } from './context/AuthContext';
 
 // Get the root DOM node where the React app will mount
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.withCredentials = true;
 
 // Render the React component tree
 root.render(

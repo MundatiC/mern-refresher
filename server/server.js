@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 
 // Route handlers
 const authRoutes = require('./routes/authRoutes');
@@ -17,6 +18,15 @@ dotenv.config();
 
 // Initialize Express app
 const app = express();
+
+// Middleware to enable Cross-Origin Resource Sharing (CORS)
+app.use(cors({
+
+  origin: 'http://localhost:3000',
+
+  credentials: true,
+
+}));
 
 // Apply security best practices (e.g., setting HTTP headers)
 app.use(helmet());

@@ -7,6 +7,7 @@ import AuthContext from '../context/AuthContext';
 const Dashboard = () => {
   // Get user object from authentication context
   const { user } = useContext(AuthContext);
+  const url = 'http://localhost:5000'; // Base URL for task API
 
   // State for storing tasks and form input
   const [tasks, setTasks] = useState([]);
@@ -23,7 +24,7 @@ const Dashboard = () => {
   // Fetch all tasks from the API
   const fetchTasks = async () => {
     try {
-      const res = await axios.get('/api/tasks');
+      const res = await axios.get(`${url}/api/tasks`);
       setTasks(res.data);
     } catch (err) {
       toast.error('Failed to fetch tasks.');
@@ -36,7 +37,7 @@ const Dashboard = () => {
     e.preventDefault();
 
     try {
-      await axios.post('/api/tasks', {
+      await axios.post(`${url}/api/tasks`, {
         title: newTaskTitle,
         description: newTaskDescription,
       });
@@ -56,7 +57,7 @@ const Dashboard = () => {
   // Handle toggling the task's completed status
   const handleUpdateTask = async (id, completed) => {
     try {
-      await axios.put(`/api/tasks/${id}`, { completed });
+      await axios.put(`${url}/api/tasks/${id}`, { completed });
       toast.success('Task updated successfully!');
       fetchTasks(); // Refresh task list
     } catch (err) {
@@ -68,7 +69,7 @@ const Dashboard = () => {
   // Handle deleting a task
   const handleDeleteTask = async (id) => {
     try {
-      await axios.delete(`/api/tasks/${id}`);
+      await axios.delete(`${url}/api/tasks/${id}`);
       toast.success('Task deleted successfully!');
       fetchTasks(); // Refresh task list
     } catch (err) {
