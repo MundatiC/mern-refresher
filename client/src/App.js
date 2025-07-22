@@ -19,12 +19,13 @@ function App() {
     // Wrap entire app in Router for client-side routing
     <Router>
       {/* Persistent Navbar shown on all pages */}
+      <div className="min-h-screen flex flex-col">
       <Navbar />
 
       {/* Toast notifications for user feedback (top-right by default) */}
       <ToastContainer />
 
-      <div className="container">
+      <div className="flex-1 mx-auto w-full max-w-7xl px-4 py-8">
         <Routes>
           {/* Public Routes */}
           <Route path="/register" element={<Register />} />
@@ -39,6 +40,7 @@ function App() {
           {/* Home route - public */}
           <Route path="/" element={<h1>Welcome to Task Manager!</h1>} />
         </Routes>
+      </div>
       </div>
     </Router>
   );

@@ -1,19 +1,39 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import { motion } from 'framer-motion';
 
-// Protects routes from unauthenticated access
 const PrivateRoute = () => {
-  const { user, loading } = useContext(AuthContext); // Access auth status from context
+  const { user, loading } = useContext(AuthContext);
 
-  // Show a loading state while checking auth
   if (loading) {
-    return <div>Loading...</div>; // Optional: Replace with spinner component
+    return (
+      <motion.div 
+        className="loading-spinner"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <div className="glass-panel p-8 flex flex-col items-center gap-4">
+          <div className="spinner"></div>
+          <p className="text-white font-medium">Authenticating...</p>
+        </div>
+      </motion.div>
+    );
   }
 
-  // If user is authenticated, render the nested route (e.g., <Dashboard />)
-  // Otherwise, redirect to login
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Outlet />
+    </motion.div>
+  ) : (
+    <Navigate to="/login" replace />
+  );
 };
 
 export default PrivateRoute;
