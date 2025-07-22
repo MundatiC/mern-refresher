@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { registerSchema, loginSchema } = require('../validators/authValidator');
 
 /**
  * Generate a JWT token for a given user ID
@@ -20,6 +21,10 @@ const generateToken = (id) => {
  */
 exports.registerUser = async (req, res) => {
   const { username, email, password } = req.body;
+
+  const { error } = registerSchema.validate(req.body);
+
+  if (error) return res.status(400).json({ message: error.details[0].message });
 
   try {
     const userExists = await User.findOne({ email });
@@ -55,6 +60,10 @@ exports.registerUser = async (req, res) => {
  */
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
+
+  const { error } = loginSchema.validate(req.body);
+
+  if (error) return res.status(400).json({ message: error.details[0].message });
 
   try {
     const user = await User.findOne({ email });
